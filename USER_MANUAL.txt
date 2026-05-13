@@ -1,6 +1,4 @@
-Manual de Usuario - Yogurt Batch (versión corta)
-
-Hola, soy un estudiante y escribí esto rápido para que sepas usar la app.
+Manual de Usuario - Yogurt Batch 
 
 Qué hace
 Esta app es un backend que guarda recetas y controla lotes de yogur. Todo se hace por una API (no hay interfaz bonita).
@@ -29,5 +27,3 @@ curl -X POST "http://localhost:8080/api/recipes" -H "Content-Type: application/j
 Problemas comunes
 - Si no arranca: asegúrate de tener Java y permisos.
 - Si recibes error 400: revisa que el JSON tenga las claves correctas.
-
-Eso es todo por ahora. Si quieres que lo haga más detallado, me dices.
