@@ -26,7 +26,7 @@ public class BatchController {
 
     private final YogurtBatchRepository batchRepository;
     private final YogurtMakingService yogurtMakingService;
-    private final TemperatureControl Service temperatureControlService;
+    private final TemperatureControlService temperatureControlService;
 
     @GetMapping
     @Operation(summary = "Obtener todos los lotes",
@@ -147,12 +147,14 @@ public class BatchController {
             @RequestBody BatchDto.FailRequest request) {
         try {
             YogurtBatch batch = yogurtMakingService.getBatchById(id);
-                    batch.setStatus(YogurtBatch.BatchStatus.FAILED);
-                    batch.setNotes(request.getReason());
+            batch.setStatus(YogurtBatch.BatchStatus.FAILED);
+            batch.setNotes(request.getReason());
+            YogurtBatch failedBatch = batchRepository.save(batch);
+
             // Guardar a través del servicio registrando la temperatura final
             yogurtMakingService.logTemperature(id, batch.getCurrentTemperature(),
                 com.pedro.demo.domain.model.TemperaturaLog.LogType.MONITORING);
-            return ResponseEntity.ok(batch);
+            return ResponseEntity.ok(failedBatch);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
