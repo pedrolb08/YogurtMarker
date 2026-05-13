@@ -1,6 +1,4 @@
-Manual Técnico - Yogurt Batch (versión corta)
-
-Hola, soy estudiante y dejo aquí la información básica sobre cómo está hecho el proyecto.
+Manual Técnico - Yogurt Batch 
 
 Qué es
 Es un backend en Java con Spring Boot que ofrece una API REST para recetas y lotes de yogur. No tiene UI aparte de Swagger.
@@ -30,7 +28,5 @@ Notas para desarrollar
 Comandos útiles
 - Compilar: `./mvnw clean package`
 - Tests: `./mvnw test`
-
-Si quieres que explique una parte concreta (por ejemplo cómo funciona `RecipeController`), dímelo y lo intento explicar como para un compañero de clase.
 
 Fin del manual técnico.
