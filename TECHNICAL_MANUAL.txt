@@ -1,79 +1,36 @@
-Manual Técnico - Yogurt Batch
+Manual Técnico - Yogurt Batch (versión corta)
 
-Visión general
-Este proyecto es una aplicación backend en Java usando Spring Boot que expone una API REST para gestionar recetas, lotes (batches) y registros de temperatura. Está orientado a la producción de yogur artesanal automatizada y contiene endpoints documentados con OpenAPI/Swagger.
+Hola, soy estudiante y dejo aquí la información básica sobre cómo está hecho el proyecto.
 
-Tecnologías principales
-- Java 11+ (o versión compatible)
-- Spring Boot (web, data JPA, etc.)
-- Maven (build system). Se incluyen wrappers `mvnw`/`mvnw.cmd`.
-- Lombok (para reducir boilerplate con anotaciones como `@RequiredArgsConstructor`, `@Builder`).
-- springdoc-openapi o similar para generar Swagger UI (anotaciones `io.swagger.v3` presentes).
-- Jackson para serialización/deserialización JSON.
+Qué es
+Es un backend en Java con Spring Boot que ofrece una API REST para recetas y lotes de yogur. No tiene UI aparte de Swagger.
 
-Estructura del proyecto (resumen de carpetas relevantes)
-- `src/main/java/com/pedro/demo/` - paquete base del proyecto.
-  - `DemoApplication.java` - clase principal que arranca Spring Boot.
-  - `controller/` - Contiene controladores REST como `RecipeController`, `BatchController`, `MonitoringController`.
-  - `demain/repository/` - Repositorios Spring Data JPA (por ejemplo `RecipeRepository`, `YogurtBatchRepository`, `TemperaturaLogRepository`).
-  - `domain/model/` - Entidades del dominio: `Recipe`, `YogurtBatch`, `TemperaturaLog`, `Ingredient`.
-  - `dto/` - Objetos para transferencia de datos (DTOs) como `RecipeDto`, `BatchDto`, `MonitoringDto`.
-  - `servicio/` - Servicios de negocio, por ejemplo `YogurtMakingService`.
-  - `config/` - Configuraciones como `SwaggerConfig`.
-- `src/main/resources/` - Recursos de configuración y plantillas.
-  - `application.yml` / `aplication.properties` - Configuración de Spring Boot.
+Tech stack
+- Java
+- Spring Boot (Web, Data JPA)
+- Maven (con mvnw)
+- Lombok
+- OpenAPI/Swagger (anotaciones io.swagger.v3)
 
-Puntos clave de diseño
-- Controladores: usan `@RestController` y `ResponseEntity<T>` para controlar códigos HTTP. Están anotados para OpenAPI con `@Operation`, `@ApiResponses`, `@Parameter`.
-- Repositorios: interfaces que extienden Spring Data JPA para persistencia. Ejemplo: `findByActive(true)` para filtrar recetas activas.
-- DTOs: recomendación de usar DTOs para separar la capa de persistencia de la interfaz pública (algunos controladores ya usan `RecipeDto`).
-- Lombok: reduce código repetitivo (getters/setters/constructores). Ten en cuenta que IDEs necesitan el plugin de Lombok para evitar problemas de compilación en desarrollo local.
+Estructura importante
+- `src/main/java/com/pedro/demo/controller` - controladores REST (p. ej. `RecipeController`).
+- `.../demain/repository` - repositorios JPA.
+- `.../domain/model` - entidades (Recipe, YogurtBatch, etc.).
+- `.../dto` - objetos para enviar/recibir datos.
 
-Ejecución en desarrollo
-1. Construir y ejecutar con Maven wrapper:
-   - `./mvnw clean package`
-   - `./mvnw spring-boot:run`
-2. Acceder a la API en `http://localhost:8080` y a la documentación (Swagger UI) en la ruta configurada.
+Cómo ejecutar rápido
+1. `./mvnw spring-boot:run`
+2. Ir a `http://localhost:8080` y abrir Swagger UI para probar.
 
-Configuración y variables
-- `application.yml` / `application.properties` controla puertos, conexiones a BD y otros. Revisa los keys: datasource, jpa, logging.
+Notas para desarrollar
+- Usa Lombok (asegúrate plugin en IDE). 
+- Los controladores usan anotaciones de OpenAPI para documentar.
+- Añade `@Valid` y DTOs si quieres validar entradas.
 
-Testing
-- Tests unitarios se encuentran en `src/test/java`. Ejecuta con:
-  - `./mvnw test`
+Comandos útiles
+- Compilar: `./mvnw clean package`
+- Tests: `./mvnw test`
 
-Buenas prácticas y recomendaciones
-- Validación: añadir `@Valid` y anotaciones de validación (`@NotNull`, `@Size`) sobre DTOs para validar inputs antes de persistir.
-- Manejo de errores: implementar `@ControllerAdvice` para errores globales y respuestas uniformes (400/404/500 con payloads de error consistentes).
-- Seguridad: actualmente no hay detalles de autenticación/autorization. Añadir Spring Security si el servicio va a estar expuesto públicamente.
-- Exposición de entidades: preferir DTOs en responses para evitar fuga de detalles (IDs, relaciones perezosas, etc.).
-- Migraciones BD: usar Flyway o Liquibase para gestionar cambios en esquema de forma controlada.
-
-Deploy y producción
-- Construir un JAR con `./mvnw clean package` y desplegar en un servidor con Java instalado.
-- Configurar variables externas (por ejemplo, `SPRING_PROFILES_ACTIVE`, datasource) y logs.
-- Monitorización y health checks: agregar endpoints/actuators si se necesita integración con Prometheus/Grafana.
-
-Estructura de paquetes y responsabilidades (detalle)
-- `controller` - Exponer endpoints REST, validación básica y mapping de DTOs.
-- `service` / `servicio` - Lógica de negocio, orquestación entre repositorios y modelos, reglas de negocio (p. ej. validaciones complejas de lotes).
-- `repository` - Acceso a datos (JPA), consultas personalizadas.
-- `domain/model` - Entidades JPA con anotaciones `@Entity`.
-- `dto` - Clases para entrada/salida, mapeo desde/hacia entidades (puedes usar MapStruct o mapeo manual).
-
-Cómo contribuir (rápido)
-1. Crear una rama a partir de `main`: `git checkout -b feat/nombre-de-la-feature`
-2. Hacer cambios, ejecutar tests: `./mvnw test`
-3. Commit con mensajes claros (ej: `feat: add validation to RecipeDto`) y push: `git push --set-upstream origin feat/nombre-de-la-feature`
-4. Abrir pull request y pedir revisión.
-
-Archivos útiles a revisar
-- `pom.xml` - dependencias y plugins
-- `src/main/java/com/pedro/demo/controller/RecipeController.java` - ejemplo de endpoints y anotaciones OpenAPI
-- `src/main/java/com/pedro/demo/servicio/YogurtMakingService.java` - lógica relevante de negocio
-
-Contacto y mantenimiento
-- Mantén actualizado `README.md` con pasos de arranque y dependencias.
-- Documenta decisiones de arquitectura y cambios significativos en el historial de commits.
+Si quieres que explique una parte concreta (por ejemplo cómo funciona `RecipeController`), dímelo y lo intento explicar como para un compañero de clase.
 
 Fin del manual técnico.
